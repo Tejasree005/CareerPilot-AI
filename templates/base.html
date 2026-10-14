@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CareerPilot AI helps students explore sample jobs, analyze resume skills, and track career applications.">
+  <title>{% block title %}CareerPilot AI{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="navbar">
+      <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">✦</span> CareerPilot<span class="brand-ai">AI</span></a>
+      <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav class="nav-links">
+        <a href="{{ url_for('jobs') }}">Explore jobs</a>
+        <a href="{{ url_for('analyzer') }}">Resume analyzer</a>
+        <a href="{{ url_for('saved') }}">Saved jobs</a>
+        <a href="{{ url_for('applications') }}">My applications</a>
+      </nav>
+      <a class="nav-cta" href="{{ url_for('jobs') }}">Find a role <span>↗</span></a>
+    </header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }} <button class="flash-close" aria-label="Dismiss">×</button></div>
+        {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <main>{% block content %}{% endblock %}</main>
+    <footer class="footer">
+      <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">✦</span> CareerPilot<span class="brand-ai">AI</span></a>
+      <p>Build skills. Find opportunities. Take your next step.</p>
+      <span class="footer-note">Student portfolio project · Sample listings only</span>
+    </footer>
+  </div>
+</body>
+</html>

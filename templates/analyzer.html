@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Resume Analyzer — CareerPilot AI{% endblock %}
+{% block content %}
+<section class="page-hero"><span class="eyebrow">RESUME INTELLIGENCE</span><h1>Make your skills <span class="gradient-text">stand out.</span></h1><p>Compare your resume with a job description to see keyword overlap and potential skill gaps.</p></section>
+<section class="section analyzer-layout">
+  <form class="analyzer-form panel" method="post" enctype="multipart/form-data">
+    <div class="panel-heading"><span class="step-badge">01</span><div><h2>Add your resume</h2><p>Upload a text-based PDF or paste your resume text.</p></div></div>
+    <label class="upload-box"><span class="upload-symbol">↑</span><strong>Choose resume PDF</strong><span>PDF only · Text-based PDFs work best</span><input type="file" name="resume_pdf" accept=".pdf,application/pdf"></label>
+    <div class="or-divider"><span>OR PASTE TEXT</span></div>
+    <textarea name="resume_text" rows="7" placeholder="Paste your resume text here… e.g. Python, SQL, Flask, academic projects, internships"></textarea>
+    <div class="panel-heading panel-heading-spaced"><span class="step-badge">02</span><div><h2>Add a job description</h2><p>Paste the role requirements you want to compare against.</p></div></div>
+    <textarea name="job_description" rows="7" required placeholder="Paste the job description and required skills here…"></textarea>
+    <button class="btn btn-primary btn-wide" type="submit">Analyze my match <span>→</span></button>
+    <p class="privacy-note">Your uploaded PDF is processed locally by this app and the temporary upload is removed after processing. Avoid uploading sensitive personal information to public deployments.</p>
+  </form>
+  <div class="result-column">
+    {% if result %}
+    <div class="panel result-panel">
+      <span class="eyebrow">YOUR ANALYSIS</span><h2>Resume match snapshot</h2>
+      <div class="score-ring" style="--score: {{ result.score }}%"><div><strong>{{ result.score }}<small>%</small></strong><span>keyword overlap</span></div></div>
+      <p class="result-disclaimer">This is a simple keyword-overlap estimate, not an AI hiring decision or a guarantee of job suitability.</p>
+      <div class="skill-result"><h3><span class="green-dot"></span> Matched keywords <span class="count">{{ result.matched|length }}</span></h3><div class="skill-tags">{% for skill in result.matched %}<span class="tag-match">{{ skill }}</span>{% else %}<span class="muted">No common keywords found yet.</span>{% endfor %}</div></div>
+      <div class="skill-result"><h3><span class="orange-dot"></span> Potential gaps <span class="count">{{ result.missing|length }}</span></h3><div class="skill-tags">{% for skill in result.missing %}<span class="tag-gap">{{ skill }}</span>{% else %}<span class="muted">No gaps from the detected keywords.</span>{% endfor %}</div></div>
+      <div class="skill-result"><h3>Keywords detected in resume</h3><div class="skill-tags">{% for skill in result.resume_skills %}<span>{{ skill }}</span>{% else %}<span class="muted">No supported skills detected.</span>{% endfor %}</div></div>
+    </div>
+    {% else %}
+    <div class="result-placeholder panel"><div class="placeholder-art"><span>✧</span><i></i><b></b></div><span class="eyebrow">YOUR RESULTS, AT A GLANCE</span><h2>Clarity before you apply.</h2><p>Your analysis will show matching keywords, possible gaps, and an approximate overlap score.</p><div class="placeholder-points"><span>✓ Skill keyword comparison</span><span>✓ Missing keyword hints</span><span>✓ Actionable next steps</span></div></div>
+    {% endif %}
+    <div class="tip-card"><span class="tip-icon">✦</span><div><strong>Pro tip</strong><p>Tailor your resume honestly for each role. Include relevant skills only when you can demonstrate them.</p></div></div>
+  </div>
+</section>
+{% endblock %}

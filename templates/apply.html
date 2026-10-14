@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Role Details — CareerPilot AI{% endblock %}
+{% block content %}
+<section class="page-hero"><span class="eyebrow">{{ job.type }} · SAMPLE LISTING</span><h1>{{ job.title }}</h1><p>{{ job.company }} <span class="dot-separator">•</span> {{ job.location }}</p></section>
+<section class="section apply-layout">
+  <article class="panel role-detail"><span class="eyebrow">ROLE OVERVIEW</span><h2>About this opportunity</h2><p>{{ job.description }}</p><h3>Skills mentioned</h3><div class="skill-tags">{% for skill in job.skills %}<span>{{ skill }}</span>{% endfor %}</div><div class="role-fact"><span>Opportunity type</span><strong>{{ job.type }}</strong></div><div class="role-fact"><span>Compensation note</span><strong>{{ job.stipend }}</strong></div><div class="notice-box">This is a portfolio demo. Submitting the form records a local demo application only; it does not contact this company or submit a real job application.</div></article>
+  <form class="panel application-form" method="post"><span class="eyebrow">DEMO APPLICATION TRACKER</span><h2>Track this opportunity</h2><p>Enter your details to add a local record to your application tracker.</p><label>Your name<input name="name" required placeholder="Full name"></label><label>Email address<input name="email" type="email" required placeholder="you@example.com"></label><button class="btn btn-primary btn-wide" type="submit">Save demo application →</button></form>
+</section>
+{% endblock %}

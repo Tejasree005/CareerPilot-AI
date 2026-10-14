@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Saved Jobs — CareerPilot AI{% endblock %}
+{% block content %}
+<section class="page-hero"><span class="eyebrow">YOUR SHORTLIST</span><h1>Roles you want to <span class="gradient-text">remember.</span></h1><p>Saved roles are stored in this app's local SQLite database.</p></section>
+<section class="section section-pad">
+{% if jobs %}
+<div class="job-grid">{% for job in jobs %}
+<article class="job-card"><div class="job-card-top"><div class="company-logo logo-{{ loop.index }}">{{ job.company[0] }}</div><span class="job-type">{{ job.type }}</span></div><h3>{{ job.title }}</h3><p class="company-name">{{ job.company }}</p><div class="job-meta"><span>⌖ {{ job.location }}</span><span>◷ {{ job.stipend }}</span></div><div class="skill-tags">{% for skill in job.skills[:4] %}<span>{{ skill }}</span>{% endfor %}</div><div class="job-actions"><a class="btn btn-dark" href="{{ url_for('apply', job_id=job.id) }}">View role <span>↗</span></a><form action="{{ url_for('save_job', job_id=job.id) }}" method="post"><button class="icon-button" aria-label="Remove saved job">♥</button></form></div></article>
+{% endfor %}</div>
+{% else %}
+<div class="empty-state"><span>♡</span><h3>Your shortlist starts here</h3><p>Save interesting roles from the jobs page and they'll appear here.</p><a class="btn btn-primary" href="{{ url_for('jobs') }}">Explore jobs</a></div>
+{% endif %}
+</section>
+{% endblock %}

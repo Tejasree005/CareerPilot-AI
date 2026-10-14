@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Explore Jobs — CareerPilot AI{% endblock %}
+{% block content %}
+<section class="page-hero"><span class="eyebrow">OPPORTUNITY EXPLORER</span><h1>Find a role that fits <span class="gradient-text">your next step.</span></h1><p>Search sample roles by title, company, skill, or location.</p></section>
+<section class="section section-pad">
+  <form class="filter-bar" method="get" action="{{ url_for('jobs') }}">
+    <input name="q" value="{{ q }}" placeholder="Search role, company, skill…" aria-label="Search roles">
+    <select name="type" aria-label="Job type"><option value="">All types</option><option value="Internship" {% if job_type == 'Internship' %}selected{% endif %}>Internship</option><option value="Full-time" {% if job_type == 'Full-time' %}selected{% endif %}>Full-time</option></select>
+    <input name="location" value="{{ location }}" placeholder="Location" aria-label="Location">
+    <button class="btn btn-primary" type="submit">Search roles →</button>
+  </form>
+  <div class="results-row"><span><strong>{{ jobs|length }}</strong> sample opportunities</span><a class="text-link" href="{{ url_for('saved') }}">♡ Saved jobs</a></div>
+  {% if jobs %}
+  <div class="job-grid">
+    {% for job in jobs %}
+    <article class="job-card">
+      <div class="job-card-top"><div class="company-logo logo-{{ loop.index }}">{{ job.company[0] }}</div><span class="job-type">{{ job.type }}</span></div>
+      <h3>{{ job.title }}</h3><p class="company-name">{{ job.company }}</p>
+      <p class="job-description">{{ job.description }}</p>
+      <div class="job-meta"><span>⌖ {{ job.location }}</span><span>◷ {{ job.stipend }}</span></div>
+      <div class="skill-tags">{% for skill in job.skills %}<span>{{ skill }}</span>{% endfor %}</div>
+      <div class="job-actions"><a class="btn btn-dark" href="{{ url_for('apply', job_id=job.id) }}">View role <span>↗</span></a><form action="{{ url_for('save_job', job_id=job.id) }}" method="post"><button class="icon-button" aria-label="Save job" title="Save job">{{ '♥' if job.id in saved_ids else '♡' }}</button></form></div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state"><span>⌕</span><h3>No roles found</h3><p>Try a different keyword or clear your filters.</p><a class="btn btn-primary" href="{{ url_for('jobs') }}">Clear filters</a></div>
+  {% endif %}
+  <p class="demo-note">Sample listings only — not real-time or verified job vacancies.</p>
+</section>
+{% endblock %}

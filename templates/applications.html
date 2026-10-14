@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}My Applications — CareerPilot AI{% endblock %}
+{% block content %}
+<section class="page-hero"><span class="eyebrow">APPLICATION WORKSPACE</span><h1>Keep your next steps <span class="gradient-text">organized.</span></h1><p>Local demo records you have added from role pages.</p></section>
+<section class="section section-pad">
+{% if applications %}
+<div class="table-wrap"><table><thead><tr><th>Role</th><th>Company</th><th>Applicant</th><th>Status</th><th>Added</th></tr></thead><tbody>{% for item in applications %}<tr><td><strong>{{ item.job.title }}</strong></td><td>{{ item.job.company }}</td><td>{{ item.applicant_name }}<br><small>{{ item.email }}</small></td><td><span class="status-pill">{{ item.status }}</span></td><td>{{ item.applied_at[:16] if item.applied_at else '' }}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}
+<div class="empty-state"><span>▤</span><h3>No tracked applications yet</h3><p>Open a sample role and use the demo form to create your first local record.</p><a class="btn btn-primary" href="{{ url_for('jobs') }}">Explore roles</a></div>
+{% endif %}
+</section>
+{% endblock %}
